@@ -14,6 +14,6 @@ function inspect(s) {
 
 export {
   enableDelegation,
-  multipleClassDelegation,
+  inheritMultipleClasses,
 };
 

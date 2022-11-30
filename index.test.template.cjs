@@ -1,6 +1,6 @@
 params: body
 'use strict';
 
-const { enableDelegation, multipleClassDelegation } = require( './index.cjs' );
+const { enableDelegation, inheritMultipleClasses } = require( './index.cjs' );
 
 <%=body %>

@@ -1,4 +1,4 @@
 params: body
-import  { enableDelegation, multipleClassDelegation } from './index.mjs' ;
+import  { enableDelegation, inheritMultipleClasses } from './index.mjs' ;
 
 <%=body %>

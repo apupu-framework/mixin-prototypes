@@ -32,7 +32,7 @@ function getMethods( T ) {
 }
 
 
-function multipleClassDelegation( className, directParentClass,  ...multipleParentClasses ) {
+function inheritMultipleClasses( className, directParentClass,  ...multipleParentClasses ) {
   let codeBegin = `
       class ${className} extends ${directParentClass.name} {
   `;
@@ -130,7 +130,7 @@ function multipleClassDelegation( className, directParentClass,  ...multiplePare
     codeEnd + 
     codeDirectMethodsBegin + codeDirectMethodsBody + codeDirectMethodsEnd;
 
-  console.error( code );
+  // console.error( code );
 
   const result= (
     new Function(
@@ -147,11 +147,11 @@ function multipleClassDelegation( className, directParentClass,  ...multiplePare
   return result;
 }
 
-function verticalMultipleClassDelegation( className, directParentClass,  ...multipleParentClasses  ) {
+function verticallyInheritMultipleClasses( className, directParentClass,  ...multipleParentClasses  ) {
   let T = directParentClass;
   for ( let i=0; i<multipleParentClasses.length; i++ ) {
     const targetClass = multipleParentClasses[i];
-    T = multipleClassDelegation( className, T, targetClass );
+    T = inheritMultipleClasses( className, T, targetClass );
   }
   return T;
 }

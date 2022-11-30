@@ -14,6 +14,6 @@ function inspect(s) {
 
 
 module.exports.enableDelegation = enableDelegation;
-module.exports.multipleClassDelegation = multipleClassDelegation;
+module.exports.inheritMultipleClasses = inheritMultipleClasses;
 
 
