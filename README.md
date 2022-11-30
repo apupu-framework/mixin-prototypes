@@ -3,13 +3,6 @@
 ================================================================================
 
 Yet another suicidal module to implement multiple inheritance with JavaScript.
-If you have a good idea which applies multiple inheritance, it is usually an
-inidication of a disastar; don't use this module unless you are one of those
-programmers who has no afraid of programmatic death like kamikaze programmer.
-
-
-...  okay, let's see how to use this module.
-
 
 ```javascript
   class TObject {
@@ -211,10 +204,11 @@ overriden and not executed.
 
  History
 --------------------------------------------------------------------------------
-- Released v1.0.0 (Wed, 30 Nov 2022 18:25:18 +0900)
+- Released v1.0.0 (Wed, 30 Nov 2022 19:46:02 +0900)
 
 
  Conclusion
 --------------------------------------------------------------------------------
 Thank you for your attention.
+
 
