@@ -1,5 +1,5 @@
 params: body
-'use strict'
+'use strict';
 
 function inspect(s) {
   return JSON.stringify( s, null, 2 );
@@ -13,7 +13,8 @@ function inspect(s) {
 
 
 
-module.exports.enableDelegation = enableDelegation;
-module.exports.inheritMultipleClasses = inheritMultipleClasses;
+
+module.exports.inheritMultipleClasses = mixin;
+module.exports.mixin = mixin;
 
 

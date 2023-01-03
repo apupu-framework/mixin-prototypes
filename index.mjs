@@ -8,25 +8,8 @@ function inspect(s) {
 
 
 
-let IS_DELEGATION = false;
+const IS_DELEGATION = false;
 const ACTUAL_CONSTRUCTOR = 'ctor';
-
-function enableDelegation( value ) {
-  if ( typeof value !== 'boolean' ) {
-    throw new TypeError( 'is not a boolean value' );
-  }
-  IS_DELEGATION = value;
-}
-
-function makeInstanceOf( f ) {
-  if ( ! ( f instanceof Function ) ) {
-    throw new TypeError( 'the object is not function' );
-  } 
-  Object.defineProperty( f, Symbol.hasInstance, {
-    value : f,
-  });
-  return f;
-}
 
 function isAsyncFunction( f ) {
   // Note that if `f` is either null or undefined, this expression results false.
@@ -43,7 +26,7 @@ function getMethods( T ) {
 }
 
 
-function inheritMultipleClasses( className, directParentClass,  ...multipleParentClasses ) {
+function mixin( className, directParentClass,  ...multipleParentClasses ) {
   let codeBegin = `
       class ${className} extends ${directParentClass.name} {
   `;
@@ -158,11 +141,11 @@ function inheritMultipleClasses( className, directParentClass,  ...multipleParen
   return result;
 }
 
-function verticallyInheritMultipleClasses( className, directParentClass,  ...multipleParentClasses  ) {
+function vert_mixin( className, directParentClass,  ...multipleParentClasses  ) {
   let T = directParentClass;
   for ( let i=0; i<multipleParentClasses.length; i++ ) {
     const targetClass = multipleParentClasses[i];
-    T = inheritMultipleClasses( className, T, targetClass );
+    T = mixin( className, T, targetClass );
   }
   return T;
 }
@@ -172,7 +155,8 @@ function verticallyInheritMultipleClasses( className, directParentClass,  ...mul
 
 
 
+
 export {
-  enableDelegation,
-  inheritMultipleClasses,
+  mixin as 'inheritMultipleClasses',
+  mixin
 };

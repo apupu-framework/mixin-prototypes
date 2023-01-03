@@ -20,7 +20,7 @@ Yet another suicidal module to implement multiple inheritance with JavaScript.
       console.error('BAR!');
     }
   }
-  const TFooBar = inheritMultipleClasses( 'TFooBar', TObject, IFoo, IBar );
+  const TFooBar = mixin( 'TFooBar', TObject, IFoo, IBar );
   const foo_bar = new TFooBar();
   foo_bar.hello_world(); // hello, world!
   foo_bar.foo();         // FOO!;
@@ -30,13 +30,13 @@ Yet another suicidal module to implement multiple inheritance with JavaScript.
  Principle
 --------------------------------------------------------------------------------
 
-The object which is retuned by `inheritMultipleClasses()` function  has
+The object which is retuned by `mixin()` function  has
 `source` property. This property is the source code to generate the class which
 has just created by the function.
 
 ```javascript
   // ...
-  const TFooBar = inheritMultipleClasses( 'TFooBar', TObject, IFoo, IBar );
+  const TFooBar = mixin( 'TFooBar', TObject, IFoo, IBar );
   console.log( TFooBar.source );
 >    class TFooBar extends TObject {
 >
@@ -95,7 +95,7 @@ whenever the class is instantiated.
       this.bar_name = 'BAAR';
     }
   }
-  const TFooBar = inheritMultipleClasses( 'TFooBar', TObject, IFoo, IBar );
+  const TFooBar = mixin( 'TFooBar', TObject, IFoo, IBar );
   console.log( TFooBar.source );
   const foo_bar = new TFooBar();
   foo_bar.foo();         // FOOO!;
@@ -161,7 +161,7 @@ multiple times to each of the `ctor()` method.
       this.bar_name = nargs.bar;
     }
   }
-  const TFooBar = inheritMultipleClasses( 'TFooBar', TObject, IFoo, IBar );
+  const TFooBar = mixin( 'TFooBar', TObject, IFoo, IBar );
   console.log( TFooBar.source );
   const foo_bar = new TFooBar({foo:'FOOOO', bar:'BAAAR' });
   foo_bar.foo();         // FOOOO!;
@@ -195,7 +195,7 @@ overriden and not executed.
       this.bar_name = 'BAAR';
     }
   }
-  const TFooBar = inheritMultipleClasses( 'TFooBar', TObject, IFoo, IBar );
+  const TFooBar = mixin( 'TFooBar', TObject, IFoo, IBar );
   console.log( TFooBar.source );
   // TObject.ctor is overriden by the system and not executed.
   const foo_bar = new TFooBar(); 
@@ -209,7 +209,8 @@ overriden and not executed.
 - Released v1.0.0 (Wed, 30 Nov 2022 19:50:50 +0900)
 - Released v1.0.1 (Tue, 03 Jan 2023 11:38:21 +0900)
   renamed `multiple-inheritance.js` to `mixi-prototypes` and updated to `v1.0.1`.
-
+- Released v1.0.2 (Tue, 03 Jan 2023 14:01:53 +0900)
+  renamed `inheritMultipleClasses()` to `mixin()`.
 
  Conclusion
 --------------------------------------------------------------------------------

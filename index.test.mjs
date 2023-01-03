@@ -1,4 +1,4 @@
-import  { enableDelegation, inheritMultipleClasses } from './index.mjs' ;
+import  { mixin, inheritMultipleClasses } from './index.mjs' ;
 
 
 test( 'test1', ()=>{
@@ -17,7 +17,7 @@ test( 'test1', ()=>{
       console.error('BAR!');
     }
   }
-  const TFooBar = inheritMultipleClasses( 'TFooBar', TObject, IFoo, IBar );
+  const TFooBar = mixin( 'TFooBar', TObject, IFoo, IBar );
   const foo_bar = new TFooBar();
   foo_bar.hello_world(); // hello, world!
   foo_bar.foo(); // FOO!;
@@ -50,7 +50,7 @@ test('test2' , ()=>{
       this.bar_name = 'BAAR';
     }
   }
-  const TFooBar = inheritMultipleClasses( 'TFooBar', TObject, IFoo, IBar );
+  const TFooBar = mixin( 'TFooBar', TObject, IFoo, IBar );
   console.log( TFooBar.source );
   const foo_bar = new TFooBar();
   foo_bar.foo();         // FOOO!;
@@ -77,7 +77,7 @@ test( 'test3', ()=>{
       this.bar_name = nargs.bar;
     }
   }
-  const TFooBar = inheritMultipleClasses( 'TFooBar', TObject, IFoo, IBar );
+  const TFooBar = mixin( 'TFooBar', TObject, IFoo, IBar );
   console.log( TFooBar.source );
   const foo_bar = new TFooBar({foo:'FOOOO', bar:'BAAAR' });
   foo_bar.foo();         // FOOOO!;
@@ -104,97 +104,10 @@ test( 'symbolic properties', ()=>{
       this.bar_name = nargs.bar;
     }
   }
-  const TFooBar = inheritMultipleClasses( 'TFooBar', TObject, IFoo, IBar );
+  const TFooBar = mixin( 'TFooBar', TObject, IFoo, IBar );
   console.log( TFooBar.source );
   const foo_bar = new TFooBar({foo:'symfoo', bar:'symbar' });
   foo_bar[Symbol.for('symbolic-foo')]();         // symfoo!;
   foo_bar[Symbol.for('symbolic-bar')]();         // symbar!;
 });
 
-
-//////////                               class TObject {
-//////////                                 foo() {
-//////////                                 }
-//////////                                 bar() {
-//////////                                 }
-//////////                                 [Symbol.for('test-symbol')]() {
-//////////                                   console.error('TEST!');
-//////////                                 }
-//////////                               }
-//////////                               
-//////////                               console.error( Object.getOwnPropertyDescriptor(  TObject.prototype,'foo' ) );
-//////////                               
-//////////                               
-//////////                               // console.error( TObject.prototype.foo.name );
-//////////                               
-//////////                               class IObject1 {
-//////////                                 yes() {
-//////////                                   console.error( 'YES' );
-//////////                                 }
-//////////                                 ctor({foo=(()=>{throw new Error('foo is required')})()}) {
-//////////                                   this.foo = foo;
-//////////                                 }
-//////////                               }
-//////////                               
-//////////                               class IObject2 {
-//////////                                 no() {
-//////////                                   console.error( 'NOOO!' );
-//////////                                 }
-//////////                                 ctor({bar=(()=>{throw new Error('bar is required')})()}) {
-//////////                                   this.bar = bar;
-//////////                                 }
-//////////                                 async asyncproc(){
-//////////                                   console.error( 'async!');
-//////////                                 }
-//////////                               }
-//////////                               class IObject3 {
-//////////                                 [Symbol.for('symbolic')]() {
-//////////                                   console.error( 'SYMBOL!' );
-//////////                                 }
-//////////                                 ctor({bar=(()=>{throw new Error('bar is required')})()}) {
-//////////                                   this.bar = bar;
-//////////                                 }
-//////////                               }
-//////////                               
-//////////                               // new TObject()[Symbol.for('test-symbol')]();
-//////////                               
-//////////                               {
-//////////                                 console.error( 'horizontal' );
-//////////                                 const TObject2 = inheritMultipleClasses( 'TObject2', TObject, IObject1, IObject2, IObject3 );
-//////////                                 console.error( TObject2.source );
-//////////                                 new TObject2({foo:'he',bar:'wo'}).yes();
-//////////                                 new TObject2({foo:'he',bar:'wo'}).no();
-//////////                                 (new TObject2({foo:'he',bar:'wo'}).asyncproc());
-//////////                               
-//////////                                 console.error( 'new TObject2() instanceof TObject ', new TObject2({foo:'hel',bar:'wo'}) instanceof TObject );
-//////////                                 console.error( 'new TObject2() instanceof IObject1', new TObject2({foo:'hel',bar:'wo'}) instanceof IObject1 );
-//////////                                 console.error( 'new TObject2().foo', new TObject2({foo:'foo',bar:'bar'}).foo );
-//////////                               }
-//////////                               
-//////////                               
-//////////                               
-//////////                               // console.error( Object.getOwnPropertyNames( new TObject() ) )
-//////////                               // console.error( Object.getOwnPropertyNames( TObject.prototype ) )
-//////////                               // console.error( ( new TObject () ) )
-//////////                               // console.error( ( new TObject.prototype.constructor() ) )
-//////////                               // console.error( TObject.prototype.constructor === TObject  )
-//////////                                
-//////////                               if (false) {
-//////////                                 class A {
-//////////                                   foo() {
-//////////                                   }
-//////////                                   bar() {
-//////////                                   }
-//////////                                 }
-//////////                                 class B extends A {
-//////////                                   foo(){
-//////////                                   }
-//////////                                   bar(){
-//////////                                   }
-//////////                                 }
-//////////                                 console.error( getMethods( B ) );
-//////////                               }
-//////////                               
-//////////                               
-//////////                               // const t = makeInstanceOf( (v)=>v==='bar' );
-//////////                               

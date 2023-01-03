@@ -1,6 +1,6 @@
 params: body
 'use strict';
 
-const { enableDelegation, inheritMultipleClasses } = require( './index.cjs' );
+const { mixin, inheritMultipleClasses } = require( './index.cjs' );
 
 <%=body %>

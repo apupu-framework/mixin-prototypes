@@ -9,11 +9,12 @@ function inspect(s) {
 
 
 
-<%=body%>
+<%=body %>
+
 
 
 export {
-  enableDelegation,
-  inheritMultipleClasses,
+  mixin as 'inheritMultipleClasses',
+  mixin
 };
 
