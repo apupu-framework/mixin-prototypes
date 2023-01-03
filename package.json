@@ -1,5 +1,5 @@
 {
-  "name": "multiple-inheritance.js",
+  "name": "mixin-prototypes",
   "version": "1.0.0",
   "description": "Yet another JavaScript module to implement multiple inheritance",
   "main": "index.mjs",
@@ -48,7 +48,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ats4u/multiple-inheritance.js"
+    "url": "https://github.com/ats4u/mixin-prototypes"
   },
   "license": "ISC",
   "devDependencies": {
