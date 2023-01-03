@@ -207,6 +207,8 @@ overriden and not executed.
  History
 --------------------------------------------------------------------------------
 - Released v1.0.0 (Wed, 30 Nov 2022 19:50:50 +0900)
+- Released v1.0.1 (Tue, 03 Jan 2023 11:38:21 +0900)
+  renamed `multiple-inheritance.js` to `mixi-prototypes` and updated to `v1.0.1`.
 
 
  Conclusion
