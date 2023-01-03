@@ -5,13 +5,19 @@ function isAsyncFunction( f ) {
   // Note that if `f` is either null or undefined, this expression results false.
   return ( typeof f === 'function' && f.constructor.name === 'AsyncFunction' );
 }
+const AsyncFunction = async function () {}.constructor;
+const FUNCTION_METHODS =  [
+  ...Object.getOwnPropertyNames( Function ),
+  ...Object.getOwnPropertySymbols( Function ),
+  ...Object.getOwnPropertyNames( AsyncFunction ),
+  ...Object.getOwnPropertySymbols( AsyncFunction ),
+];
+function getMethods( target ) {
 
-function getMethods( T ) {
-  const target = T.prototype;
   const enumAndNonenum = [
     ...Object.getOwnPropertyNames( target ),
     ...Object.getOwnPropertySymbols( target ),
-  ]
+  ].filter( e=> ! FUNCTION_METHODS.find( e2=>e===e2 ) );
   return enumAndNonenum.map(e=>[e,target[e]]);
 }
 
@@ -26,34 +32,35 @@ function mixin( className, directParentClass,  ...multipleParentClasses ) {
           this.${ACTUAL_CONSTRUCTOR}(...args);
         }
   `;
-  const codeInitBegin = `
+  const codeCtorBegin = `
         ${ACTUAL_CONSTRUCTOR}(...args) {`;
 
 
-  let codeInitBody = ''
+  let codeCtorBody = ''
   let codeMethods  = '';
-  let codeDirectMethods  = '';
+  let codeStaticCtorBody = '' // not used
+  let codeStaticMethods  = '';
 
   for ( let i=0; i<multipleParentClasses.length; i++ ) {
     const T = multipleParentClasses[i];
     const className = T.name;
-    const methods =  getMethods(T);
 
-    for ( let j=0; j<methods.length; j++ ) {
-      let [methodName, methodValue] = methods[j];
+    const proc = (method,prototypeStr, writeCtorBody, writeMethods,)=>{
+      let [methodName, methodValue] = method;
 
       // console.error( methodName );
       if ( methodName === 'constructor' ) {
-        continue;
+        return;
       }
 
       if ( methodName === ACTUAL_CONSTRUCTOR ) {
         if ( isAsyncFunction( methodValue ) ) {
           throw new TypeError( ACTUAL_CONSTRUCTOR + ' cannot be a async function' );
         }
-        codeInitBody += `
-          ${className}.prototype.${methodName}.apply( this, args );`;
-        continue;
+        writeCtorBody( `
+          ${className}${prototypeStr}.${methodName}.apply( this, args );` );
+
+        return
       }
 
       let dot = '';
@@ -71,64 +78,70 @@ function mixin( className, directParentClass,  ...multipleParentClasses ) {
         declareAsync = 'async ';
         declareAwait = 'await ';
       }
-      codeMethods += `
-        ${declareAsync}${methodName}(...args) {
-          return ${declareAwait}(${className}.prototype${dot}${methodName}.apply( this, args ));
-        }
-      `;
-      codeDirectMethods += `
+      writeMethods ( `
         ${methodName}:{
-          value : ${className}.prototype${dot}${methodName},
+          value : ${className}${prototypeStr}${dot}${methodName},
           enumerable   : false,
           configurable : true,
           writable     : true,
         },
-      `;
-    }
+      `);
+    };
+
+    // execute
+    getMethods( T.prototype ).forEach(e=>proc(e, '.prototype', s=>codeCtorBody+=s,       s=>codeMethods+=s       )) ;
+    getMethods( T           ).forEach(e=>proc(e, '          ', s=>codeStaticCtorBody+=s, s=>codeStaticMethods+=s )) ;
   }
-  const codeInitEnd = `
+
+  const codeCtorEnd = `
         }
   `;
   let codeEnd = `
       }
   `;
 
-  const codeDirectMethodsBegin = `
+  const codeMethodsBegin = `
       Object.defineProperties( ${className}.prototype, {
   `;
-  const codeDirectMethodsBody = codeDirectMethods;
-  const codeDirectMethodsEnd = `
+  const codeMethodsBody = codeMethods;
+  const codeMethodsEnd = `
       });
   `;
 
-  if ( IS_DELEGATION ) {
-    codeDirectMethods = '';
-  } else {
-    codeMethods = '';
-  }
-
+  const codeStaticMethodsBegin = `
+      Object.defineProperties( ${className}          , {
+  `;
+  const codeStaticMethodsBody = codeStaticMethods;
+  const codeStaticMethodsEnd = `
+      });
+  `;
   const code = 
     codeBegin + 
-    codeConstructor + codeInitBegin + codeInitBody + codeInitEnd + 
-    codeMethods + 
+    codeConstructor + codeCtorBegin + codeCtorBody + codeCtorEnd + 
     codeEnd + 
-    codeDirectMethodsBegin + codeDirectMethodsBody + codeDirectMethodsEnd;
+    codeMethodsBegin       + codeMethodsBody       + codeMethodsEnd +
+    codeStaticMethodsBegin + codeStaticMethodsBody + codeStaticMethodsEnd ;
 
-  // console.error( code );
+  console.error( code );
 
-  const result= (
-    new Function(
-      directParentClass.name,
-      ...multipleParentClasses.map( e=>e.name ),
-      `
-        ${code}
-        return ${className};
-      `
-    )(directParentClass, ...multipleParentClasses )
-  );
-  Object.defineProperty( result, 'source', { value: code } );
+  try {
+    const result = (
+      new Function(
+        directParentClass.name,
+        ...multipleParentClasses.map( e=>e.name ),
+        `
+          ${code}
+          return ${className};
+        `
+      )(directParentClass, ...multipleParentClasses )
+    );
+    Object.defineProperty( result, 'source', { value: code } );
 
-  return result;
+    return result;
+  } catch ( e ) {
+    e.message += '\n' + code;
+    throw e;
+  }
 }
 
 function vert_mixin( className, directParentClass,  ...multipleParentClasses  ) {

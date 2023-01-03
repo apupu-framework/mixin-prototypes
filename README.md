@@ -211,6 +211,8 @@ overriden and not executed.
   renamed `multiple-inheritance.js` to `mixi-prototypes` and updated to `v1.0.1`.
 - Released v1.0.2 (Tue, 03 Jan 2023 14:01:53 +0900)
   renamed `inheritMultipleClasses()` to `mixin()`.
+- Released v1.0.3 (Tue, 03 Jan 2023 15:57:28 +0900)
+  supported inheritting static methods.
 
  Conclusion
 --------------------------------------------------------------------------------

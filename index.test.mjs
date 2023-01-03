@@ -111,3 +111,33 @@ test( 'symbolic properties', ()=>{
   foo_bar[Symbol.for('symbolic-bar')]();         // symbar!;
 });
 
+
+test( 'symbolic properties', ()=>{
+  class TObject {
+    constructor() {
+    }
+  }
+  class IFoo {
+    static hello_foo() {
+      console.error('hello foo');
+    }
+    static [Symbol.for('hello-symbolic-foo')]() {
+      console.error('hello symbolic foo');
+    }
+  }
+  class IBar {
+    static hello_bar() {
+      console.error('hello bar');
+    }
+    static [Symbol.for('hello-symbolic-bar')]() {
+      console.error(`${this.bar}!`);
+    }
+  }
+  const TFooBar = mixin( 'TFooBar', TObject, IFoo, IBar );
+  console.log( 'static TFooBar', TFooBar.source );
+  TFooBar['hello_foo']();
+  TFooBar['hello_bar']();
+  TFooBar[Symbol.for('hello-symbolic-foo')]();  
+  TFooBar[Symbol.for('hello-symbolic-bar')](); 
+});
+
