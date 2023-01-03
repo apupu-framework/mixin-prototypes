@@ -30,7 +30,7 @@ test( 'test1', ()=>{
 
 test('test2' , ()=>{
   class TObject {
-    init(){
+    ctor(){
       console.error('hello!');
     }
   }
@@ -38,7 +38,7 @@ test('test2' , ()=>{
     foo() {
       console.error(`${this.foo_name}!`);
     }
-    init() {
+    ctor() {
       this.foo_name = 'FOOO';
     }
   }
@@ -46,7 +46,7 @@ test('test2' , ()=>{
     bar() {
       console.error(`${this.bar_name}!`);
     }
-    init() {
+    ctor() {
       this.bar_name = 'BAAR';
     }
   }
@@ -65,7 +65,7 @@ test( 'test3', ()=>{
     foo() {
       console.error(`${this.foo_name}!`);
     }
-    init(nargs) {
+    ctor(nargs) {
       this.foo_name = nargs.foo;
     }
   }
@@ -73,7 +73,7 @@ test( 'test3', ()=>{
     bar() {
       console.error(`${this.bar_name}!`);
     }
-    init(nargs) {
+    ctor(nargs) {
       this.bar_name = nargs.bar;
     }
   }
@@ -92,7 +92,7 @@ test( 'symbolic properties', ()=>{
     [Symbol.for('symbolic-foo')]() {
       console.error(`${this.foo_name}!`);
     }
-    init(nargs) {
+    ctor(nargs) {
       this.foo_name = nargs.foo;
     }
   }
@@ -100,7 +100,7 @@ test( 'symbolic properties', ()=>{
     [Symbol.for('symbolic-bar')]() {
       console.error(`${this.bar_name}!`);
     }
-    init(nargs) {
+    ctor(nargs) {
       this.bar_name = nargs.bar;
     }
   }
@@ -131,7 +131,7 @@ test( 'symbolic properties', ()=>{
 //////////                                 yes() {
 //////////                                   console.error( 'YES' );
 //////////                                 }
-//////////                                 init({foo=(()=>{throw new Error('foo is required')})()}) {
+//////////                                 ctor({foo=(()=>{throw new Error('foo is required')})()}) {
 //////////                                   this.foo = foo;
 //////////                                 }
 //////////                               }
@@ -140,7 +140,7 @@ test( 'symbolic properties', ()=>{
 //////////                                 no() {
 //////////                                   console.error( 'NOOO!' );
 //////////                                 }
-//////////                                 init({bar=(()=>{throw new Error('bar is required')})()}) {
+//////////                                 ctor({bar=(()=>{throw new Error('bar is required')})()}) {
 //////////                                   this.bar = bar;
 //////////                                 }
 //////////                                 async asyncproc(){
@@ -151,7 +151,7 @@ test( 'symbolic properties', ()=>{
 //////////                                 [Symbol.for('symbolic')]() {
 //////////                                   console.error( 'SYMBOL!' );
 //////////                                 }
-//////////                                 init({bar=(()=>{throw new Error('bar is required')})()}) {
+//////////                                 ctor({bar=(()=>{throw new Error('bar is required')})()}) {
 //////////                                   this.bar = bar;
 //////////                                 }
 //////////                               }

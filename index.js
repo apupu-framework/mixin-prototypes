@@ -1,4 +1,5 @@
 let IS_DELEGATION = false;
+const ACTUAL_CONSTRUCTOR = 'ctor';
 
 function enableDelegation( value ) {
   if ( typeof value !== 'boolean' ) {
@@ -39,11 +40,11 @@ function inheritMultipleClasses( className, directParentClass,  ...multipleParen
   let codeConstructor = `
         constructor(...args) {
           super(...args);
-          this.init(...args);
+          this.${ACTUAL_CONSTRUCTOR}(...args);
         }
   `;
   const codeInitBegin = `
-        init(...args) {`;
+        ${ACTUAL_CONSTRUCTOR}(...args) {`;
 
 
   let codeInitBody = ''
@@ -63,9 +64,9 @@ function inheritMultipleClasses( className, directParentClass,  ...multipleParen
         continue;
       }
 
-      if ( methodName === 'init' ) {
+      if ( methodName === ACTUAL_CONSTRUCTOR ) {
         if ( isAsyncFunction( methodValue ) ) {
-          throw new TypeError( 'init cannot be a async function' );
+          throw new TypeError( ACTUAL_CONSTRUCTOR + ' cannot be a async function' );
         }
         codeInitBody += `
           ${className}.prototype.${methodName}.apply( this, args );`;
