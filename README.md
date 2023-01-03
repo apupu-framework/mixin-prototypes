@@ -1,5 +1,5 @@
 
- `multiple-inheritance.js`
+ `mixin-prototypes`
 ================================================================================
 
 Yet another suicidal module to implement multiple inheritance with JavaScript.
@@ -42,10 +42,10 @@ has just created by the function.
 >
 >      constructor(...args) {
 >        super(...args);
->        this.init(...args);
+>        this.ctor(...args);
 >      }
 >
->      init(...args) {
+>      ctor(...args) {
 >      }
 >
 >    }
@@ -71,8 +71,8 @@ has just created by the function.
 
  Initializers
 --------------------------------------------------------------------------------
-You can define a method which name is `init()` on each class which are to be
-inherited. The generated class call every init() methods on its parent classes
+You can define a method which name is `ctor()` on each class which are to be
+inherited. The generated class will call every `ctor()` methods on its parent classes
 whenever the class is instantiated.
 
 
@@ -81,17 +81,17 @@ whenever the class is instantiated.
   }
   class IFoo {
     foo() {
-      console.error(`${this.foo_name}!`);
+      console.error( `${this.foo_name}!` );
     }
-    init() {
+    ctor() {
       this.foo_name = 'FOOO';
     }
   }
   class IBar {
     bar() {
-      console.error(`${this.bar_name}!`);
+      console.error( `${this.bar_name}!` );
     }
-    init() {
+    ctor() {
       this.bar_name = 'BAAR';
     }
   }
@@ -107,12 +107,12 @@ whenever the class is instantiated.
 > 
 >      constructor(...args) {
 >        super(...args);
->        this.init(...args);
+>        this.ctor(...args);
 >      }
 > 
->      init(...args) {
->        IFoo.prototype.init.apply( this, args );
->        IBar.prototype.init.apply( this, args );
+>      ctor(...args) {
+>        IFoo.prototype.ctor.apply( this, args );
+>        IBar.prototype.ctor.apply( this, args );
 >      }
 > 
 >    }
@@ -137,8 +137,10 @@ whenever the class is instantiated.
 ```
 
 The value which is passed to the constructor of the generated class are passed
-to the init() methods.  You may want to pass named arguments to the constructor
-via inherence of multiple inheritance.
+to the `ctor()` methods.  You may want to pass named arguments to the
+constructor to avoid name conflicts because the same arguments are passed
+multiple times to each of the `ctor()` method.
+
 
 ```javascript
   class TObject {
@@ -147,7 +149,7 @@ via inherence of multiple inheritance.
     foo() {
       console.error(`${this.foo_name}!`);
     }
-    init(nargs) {
+    ctor(nargs) {
       this.foo_name = nargs.foo;
     }
   }
@@ -155,7 +157,7 @@ via inherence of multiple inheritance.
     bar() {
       console.error(`${this.bar_name}!`);
     }
-    init(nargs) {
+    ctor(nargs) {
       this.bar_name = nargs.bar;
     }
   }
@@ -167,13 +169,13 @@ via inherence of multiple inheritance.
 ```
 
 
-Please not that the `init()` method of the direct parent will be implicitly
+Please not that the `ctor()` method of the direct parent will be implicitly
 overriden and not executed.
 
 ```javascript
   class TObject {
-  // what if define init() on the direct parent class;
-    init(){
+  // what if define ctor() on the direct parent class;
+    ctor(){
       console.error('hello!');
     }
   }
@@ -181,7 +183,7 @@ overriden and not executed.
     foo() {
       console.error(`${this.foo_name}!`);
     }
-    init() {
+    ctor() {
       this.foo_name = 'FOOO';
     }
   }
@@ -189,13 +191,13 @@ overriden and not executed.
     bar() {
       console.error(`${this.bar_name}!`);
     }
-    init() {
+    ctor() {
       this.bar_name = 'BAAR';
     }
   }
   const TFooBar = inheritMultipleClasses( 'TFooBar', TObject, IFoo, IBar );
   console.log( TFooBar.source );
-  // TObject.init is overriden by the system and not executed.
+  // TObject.ctor is overriden by the system and not executed.
   const foo_bar = new TFooBar(); 
   foo_bar.foo();         // FOOO!;
   foo_bar.bar();         // BAAR!;
