@@ -213,6 +213,10 @@ overriden and not executed.
   renamed `inheritMultipleClasses()` to `mixin()`.
 - Released v1.0.3 (Tue, 03 Jan 2023 15:57:28 +0900)
   supported inheritting static methods.
+- Released v1.0.4 (Wed, 04 Jan 2023 11:46:38 +0900)
+  removed unnecessary log output.
+- Released v1.0.5 (Wed, 04 Jan 2023 11:50:09 +0900)
+  this time, it has been rebuilt.
 
  Conclusion
 --------------------------------------------------------------------------------

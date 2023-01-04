@@ -1,6 +1,6 @@
 {
   "name": "mixin-prototypes",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Yet another JavaScript module to implement multiple inheritance",
   "main": "index.mjs",
   "type": "module",

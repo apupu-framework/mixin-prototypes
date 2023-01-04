@@ -132,7 +132,7 @@ function mixin( className, directParentClass,  ...multipleParentClasses ) {
     codeMethodsBegin       + codeMethodsBody       + codeMethodsEnd +
     codeStaticMethodsBegin + codeStaticMethodsBody + codeStaticMethodsEnd ;
 
-  console.error( code );
+  // console.error( code );
 
   try {
     const result = (
