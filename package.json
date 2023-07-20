@@ -51,7 +51,9 @@
     "url": "https://github.com/ats4u/mixin-prototypes"
   },
   "license": "ISC",
-  "devDependencies": {
+  "bak-devDependencies": {
     "sqlmacro": "^0.1.0"
+  },
+  "devDependencies": {
   }
 }
