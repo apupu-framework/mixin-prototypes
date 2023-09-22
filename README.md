@@ -2,7 +2,7 @@
  `mixin-prototypes`
 ================================================================================
 
-Yet another suicidal module to implement multiple inheritance with JavaScript.
+This is a yet another module to implement multiple inheritance with JavaScript.
 
 ```javascript
   class TObject {
